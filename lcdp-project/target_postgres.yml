@@ -1,0 +1,20 @@
+---
+
+# ------------------------------------------------------------------------------
+# General Properties
+# ------------------------------------------------------------------------------
+id: "warehouse"                     # Unique identifier of the target
+name: "Postgres Data Warehouse"        # Name of the target
+type: "target-postgres"                # !! THIS SHOULD NOT CHANGE !!
+
+
+# ------------------------------------------------------------------------------
+# Target - Data Warehouse connection details
+# ------------------------------------------------------------------------------
+db_conn:
+  host: "10.5.0.23"                          # Postgres host
+  port: 5432                              # Postgres port
+  user: "postgres"                          # Postgres user
+  password: "postgres"                  # Plain string or vault encrypted
+  dbname: "warehouse"                     # Postgres database name
+

@@ -1,0 +1,43 @@
+---
+
+# ------------------------------------------------------------------------------
+# General Properties
+# ------------------------------------------------------------------------------
+id: "monolith"                         # Unique identifier of the tap
+name: "monolith"                       # Name of the tap
+type: "tap-postgres"                   # !! THIS SHOULD NOT CHANGE !!
+owner: "lcdp-dev"              # Data owner to contact
+
+
+# ------------------------------------------------------------------------------
+# Source (Tap) - PostgreSQL connection details
+# ------------------------------------------------------------------------------
+db_conn:
+  host: "10.5.0.7"                    # PostgreSQL host
+  port: 5432                          # PostgreSQL port
+  user: "postgres"                    # PostfreSQL user
+  password: "postgres"                # Plain string or vault encrypted
+  dbname: "monolith"                  # PostgreSQL database name
+
+# ------------------------------------------------------------------------------
+# Destination (Target) - Target properties
+# Connection details should be in the relevant target YAML file
+# ------------------------------------------------------------------------------
+target: "warehouse"                    # ID of the target connector where the data will be loaded
+batch_size_rows: 2000                 # Batch size for the stream to optimise load performance
+stream_buffer_size: 0                  # In-memory buffer size (MB) between taps and targets for asynchronous data pipes
+
+# ------------------------------------------------------------------------------
+# Source to target Schema mapping
+# ------------------------------------------------------------------------------
+schemas:
+
+  - source_schema: "public"            # Source schema in postgres with tables
+    target_schema: "monolith"    # Target schema in the destination Data Warehouse
+    tables:
+      - table_name: "ad"
+        replication_method: "INCREMENTAL"
+        replication_key: "updated_at"
+      - table_name: "client"
+        replication_method: "INCREMENTAL"
+        replication_key: "updated_at"
